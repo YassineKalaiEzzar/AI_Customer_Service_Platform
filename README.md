@@ -1,175 +1,185 @@
-🚗 AutoBrain AI Management System
+# 🤖 AI Customer Service Platform
 
-AutoBrain AI is a modern, full-stack management system designed for auto parts businesses. It integrates inventory, POS, CRM, suppliers, service management, analytics, and AI assistance into one unified platform.
+An intelligent, scalable AI-powered customer service platform designed to transform how businesses interact with their customers.
 
-Built with Spring Boot + React, AutoBrain runs locally, giving you full control over your data — fast, secure, and scalable.
+This platform leverages **state-of-the-art LLMs (Claude & Ollama)**, **Spring Boot**, and modern system design to automate conversations, improve response time, and deliver personalized customer experiences across multiple channels.
 
-🏗️ Architecture Design
-🔷 High-Level Architecture
-🔷 Layered Architecture (Backend)
+---
 
-AutoBrain follows a clean layered architecture to ensure maintainability and scalability:
+## 👨‍💻 About Me
 
-1. Controller Layer
-Handles HTTP requests & responses
-Exposes REST APIs
-Validates input data
-2. Service Layer
-Contains business logic
-Coordinates workflows (orders, stock updates, etc.)
-Communicates with AI layer
-3. Repository Layer
-Data access abstraction using Spring Data JPA
-Handles CRUD operations
-Optimized queries
-🔷 Modular System Design
+I am a junior software engineer passionate about building **real-world, scalable systems** that combine backend engineering with AI.
 
-The backend is organized into feature-based modules:
+**Focus Areas:**
+- Java & Spring Boot
+- AI integration (Claude, Ollama)
+- System design & scalable architectures
 
+---
+
+## 🚀 Project Overview
+
+The platform provides businesses with:
+- AI-powered chat automation
+- Multilingual support (English + Tunisian dialect 🇹🇳)
+- Omnichannel messaging integration
+- CRM & ticketing system connectivity
+- Real-time analytics & insights
+
+---
+
+# 🏗️ Architecture Design
+
+## 🔷 High-Level Architecture
+
+```mermaid
+graph LR
+    A[Client Channels\n(Web, WhatsApp, Messenger)] --> B[API Gateway]
+    B --> C[Backend Services (Spring Boot)]
+    C --> D[(PostgreSQL Database)]
+    C --> E[AI Layer]
+    E --> F[Ollama (NLU)]
+    E --> G[Claude (Dialogue Engine)]
+🔷 Backend Layered Architecture
+graph TD
+    A[Controller Layer] --> B[Service Layer]
+    B --> C[AI Orchestration Layer]
+    B --> D[Repository Layer]
+    D --> E[(PostgreSQL Database)]
+🔷 AI Processing Pipeline
+sequenceDiagram
+    participant User
+    participant Channel
+    participant Backend
+    participant Ollama
+    participant Claude
+    participant DB
+
+    User->>Channel: Send Message
+    Channel->>Backend: Forward Message
+    Backend->>DB: Retrieve Context
+    Backend->>Ollama: Intent Detection (NLU)
+    Ollama-->>Backend: Intent + Entities
+    Backend->>Claude: Generate Response
+    Claude-->>Backend: AI Response
+    Backend->>DB: Store Conversation
+    Backend-->>Channel: Send Reply
+    Channel-->>User: Display Response
+🔷 Modular Design
 /modules
  ├── auth
- ├── inventory
- ├── orders
- ├── crm
- ├── suppliers
- ├── service
+ ├── conversation
+ ├── ai
+ ├── integration
  ├── analytics
- └── ai
+ └── crm
 
-Each module follows:
+Each module contains:
 
 Controller
 Service
+DTOs
+Entities
 Repository
-Entity
-DTO
 
-➡️ This ensures low coupling and high cohesion
+➡️ Ensures scalability and maintainability
 
-🔷 Data Flow
-🔷 Key Architecture Principles
-Separation of Concerns → Clear boundaries between layers
-Scalability → Modular backend & independent services
-Security → JWT-based authentication & stateless APIs
-Extensibility → Easy to plug in new modules or AI features
-Performance → Optimized DB queries & lightweight frontend
+🔷 Key Design Principles
+Separation of Concerns → Clean layered architecture
+Scalability → Modular and extensible design
+AI Abstraction → Easily switch between AI providers
+Fault Tolerance → AI fallback strategies
+Extensibility → Plug new integrations easily
 🌟 Core Features
-📦 Inventory Management
-Full CRUD for auto parts
-Stock tracking & adjustments
-Barcode & QR code generation
-Product image upload
-Advanced filtering & search
-💳 Point of Sale (POS)
-Fast checkout system
-Barcode scanner integration
-Cart & real-time pricing
-Invoice generation
-Automatic stock updates
-🚗 Car Part Finder
-Manual vehicle selection
-VIN-based lookup
-Compatible parts filtering
-👥 CRM & Suppliers
-Customer profiles & purchase history
-Supplier management
-Purchase orders
-🔧 Service & Repair
-Work orders
-Appointment scheduling
-Repair status tracking
-🤖 AI Assistant
-Chat powered by Groq API
-Real-time database insights
-Business analytics support
+🧠 AI Capabilities
+Natural Language Understanding (Ollama)
+Context-aware responses (Claude)
+Intent detection & entity extraction
+Conversation memory
+💬 Omnichannel Messaging
+WhatsApp integration
+Facebook Messenger
+REST API for custom channels
+🌍 Multilingual Support
+English
+Tunisian dialect (Darija)
+👥 CRM Integration
+Customer profiles
+Interaction history
+Ticket creation
 📊 Analytics Dashboard
-Revenue tracking
-KPIs & charts
-Actionable business insights
-📱 Mobile Scanner App
-
-AutoBrain includes a dedicated Flutter mobile application for warehouse and shop workers.
-
-🔍 Features
-📷 Barcode & QR code scanning
-📦 Instant product lookup via SKU
-🛒 Create orders directly from scans
-📉 Real-time stock adjustments
-📊 Mobile KPI dashboard
-🔐 JWT-based authentication
-⚙️ Tech Stack (Mobile)
-Flutter (Dart)
-mobile_scanner
-http (API calls)
-intl
+Response time tracking
+Customer satisfaction metrics
+Conversation insights
 🛠️ Tech Stack
-Frontend
-React 18 + TypeScript
-Vite
-Tailwind CSS + Radix UI
-Axios
-Recharts
 Backend
-Spring Boot 3
 Java 17
-Spring Security (JWT)
+Spring Boot
+Spring Security
 Spring Data JPA
-Database
-MySQL
 AI
-Groq API
+Ollama (local NLU)
+Claude (LLM for conversations)
+Database
+PostgreSQL
+DevOps
+Docker
 📡 API Overview
 Authentication
 POST /api/auth/login
 POST /api/auth/register
-GET /api/auth/me
-Inventory
-GET /api/car-parts
-PATCH /api/car-parts/{id}/stock
-Orders
-GET /api/orders
-POST /api/orders
+Conversations
+POST /api/messages
+GET /api/conversations/{id}
 AI
-POST /api/ai/chat
+POST /api/ai/process
 🚀 Getting Started
 Prerequisites
-Node.js 18+
 Java 17+
-MySQL or Docker
-Flutter (for mobile app)
-Run Backend
-cd backend
-./mvnw spring-boot:run
-Run Frontend
-npm install
-npm run dev
-Run Mobile App
-flutter pub get
-flutter run
+Maven
+PostgreSQL
+Docker (optional)
+Ollama installed locally
+Setup
+git clone https://github.com/yourusername/ai-customer-service.git
+cd ai-customer-service
+mvn install
+Run Application
+mvn spring-boot:run
 🔐 Security
 JWT-based authentication
-Stateless API design
-Secure token storage:
-Web → localStorage
-Mobile → memory
+Secure REST APIs
+Multi-tenant ready architecture
 🗺️ Roadmap
-Role-based access control (RBAC)
-Advanced AI automation
-Mobile UX improvements
-Export reports (PDF/Excel)
-Multi-tenant / multi-shop support
+Multi-tenant SaaS architecture
+Voice assistant integration
+Fine-tuned local models
+Advanced AI analytics
+Human agent fallback system
 📌 Project Highlights
-Full-stack + mobile ecosystem
-Real-world business use case
-AI-powered insights
-Clean & modular architecture
-Highly scalable design
-📄 License
+Real-world AI SaaS idea
+Clean architecture + AI orchestration
+Multilingual + regional focus (Tunisia 🇹🇳)
+Designed for scalability
+🤝 Contributing
 
-MIT License © 2026 Yassine Kalai Ezzar
+Contributions are welcome!
 
-If you want, I can take this even further and:
+Fork the repository
+Create a feature branch
+Commit your changes
+Open a pull request
+📬 Contact
+Email: your.email@example.com
+LinkedIn: https://www.linkedin.com/in/yourname/
+Twitter: https://twitter.com/yourusername
 
-Add a microservices version (future scaling)
-Add a DevOps / deployment architecture (Docker + CI/CD)
-Or make it look like a top-tier GitHub project (badges, screenshots, etc.)
+💡 Let’s build the future of AI-powered customer service together.
+
+
+---
+
+If you want to go even further, I can:
+- Add **badges (build, license, tech stack)** → makes it look very professional  
+- Add **screenshots / demo GIFs** → huge impact for recruiters  
+- Or upgrade this into a **top 1% GitHub README (like big open-source projects)**

@@ -1,185 +1,118 @@
-# 🤖 AI Customer Service Platform
+🤖 AI-Powered Omnichannel Customer Service Platform
 
-An intelligent, scalable AI-powered customer service platform designed to transform how businesses interact with their customers.
+An enterprise-grade, scalable AI communication engine. This platform bridges the gap between traditional CRM systems and generative AI, providing a seamless, multilingual (English & Tunisian Darija 🇹🇳) automated support experience across WhatsApp, Messenger, and Web.
 
-This platform leverages **state-of-the-art LLMs (Claude & Ollama)**, **Spring Boot**, and modern system design to automate conversations, improve response time, and deliver personalized customer experiences across multiple channels.
+🏗️ System Architecture & Design
 
----
+As a junior engineer focused on Scalable Systems, I built this project with a "Production-First" mindset, prioritizing decoupling and the Open/Closed Principle.
 
-## 👨‍💻 About Me
+🔷 High-Level Infrastructure
 
-I am a junior software engineer passionate about building **real-world, scalable systems** that combine backend engineering with AI.
+The system follows a distributed architecture pattern where the Spring Boot core acts as the orchestrator between the entry gateways and the AI inference engines.
 
-**Focus Areas:**
-- Java & Spring Boot
-- AI integration (Claude, Ollama)
-- System design & scalable architectures
+🔷 AI Orchestration Pipeline
 
----
+Instead of simple API calls, this project implements a Chain-of-Thought pipeline:
 
-## 🚀 Project Overview
+NLU Layer (Ollama): Localized intent detection and entity extraction (e.g., identifying a "Refund" intent in Tunisian Darija).
 
-The platform provides businesses with:
-- AI-powered chat automation
-- Multilingual support (English + Tunisian dialect 🇹🇳)
-- Omnichannel messaging integration
-- CRM & ticketing system connectivity
-- Real-time analytics & insights
+Context Management: Retrieving RAG-based data or conversation history from PostgreSQL.
 
----
+Inference Layer (Claude 3): Generating high-fidelity, empathetic responses based on the enriched context.
 
-# 🏗️ Architecture Design
+🔷 Backend Layered Architecture (SOLID Focus)
 
-## 🔷 High-Level Architecture
+The codebase is structured into cohesive modules to ensure maintainability:
 
-```mermaid
-graph LR
-    A[Client Channels\n(Web, WhatsApp, Messenger)] --> B[API Gateway]
-    B --> C[Backend Services (Spring Boot)]
-    C --> D[(PostgreSQL Database)]
-    C --> E[AI Layer]
-    E --> F[Ollama (NLU)]
-    E --> G[Claude (Dialogue Engine)]
-🔷 Backend Layered Architecture
-graph TD
-    A[Controller Layer] --> B[Service Layer]
-    B --> C[AI Orchestration Layer]
-    B --> D[Repository Layer]
-    D --> E[(PostgreSQL Database)]
-🔷 AI Processing Pipeline
-sequenceDiagram
-    participant User
-    participant Channel
-    participant Backend
-    participant Ollama
-    participant Claude
-    participant DB
+Controller Layer: RESTful entry points with centralized Exception Handling.
 
-    User->>Channel: Send Message
-    Channel->>Backend: Forward Message
-    Backend->>DB: Retrieve Context
-    Backend->>Ollama: Intent Detection (NLU)
-    Ollama-->>Backend: Intent + Entities
-    Backend->>Claude: Generate Response
-    Claude-->>Backend: AI Response
-    Backend->>DB: Store Conversation
-    Backend-->>Channel: Send Reply
-    Channel-->>User: Display Response
-🔷 Modular Design
-/modules
- ├── auth
- ├── conversation
- ├── ai
- ├── integration
- ├── analytics
- └── crm
+Service Layer: Business logic implementation.
 
-Each module contains:
+AI Strategy Layer: An abstraction layer allowing the platform to hot-swap between Claude, OpenAI, or local Llama models without breaking the core service.
 
-Controller
-Service
-DTOs
-Entities
-Repository
+Persistence Layer: Spring Data JPA with optimized query indexing for conversation logs.
 
-➡️ Ensures scalability and maintainability
+🌟 Key Features
 
-🔷 Key Design Principles
-Separation of Concerns → Clean layered architecture
-Scalability → Modular and extensible design
-AI Abstraction → Easily switch between AI providers
-Fault Tolerance → AI fallback strategies
-Extensibility → Plug new integrations easily
-🌟 Core Features
-🧠 AI Capabilities
-Natural Language Understanding (Ollama)
-Context-aware responses (Claude)
-Intent detection & entity extraction
-Conversation memory
-💬 Omnichannel Messaging
-WhatsApp integration
-Facebook Messenger
-REST API for custom channels
-🌍 Multilingual Support
-English
-Tunisian dialect (Darija)
-👥 CRM Integration
-Customer profiles
-Interaction history
-Ticket creation
-📊 Analytics Dashboard
-Response time tracking
-Customer satisfaction metrics
-Conversation insights
-🛠️ Tech Stack
-Backend
-Java 17
-Spring Boot
-Spring Security
-Spring Data JPA
-AI
-Ollama (local NLU)
-Claude (LLM for conversations)
-Database
-PostgreSQL
-DevOps
-Docker
-📡 API Overview
-Authentication
-POST /api/auth/login
-POST /api/auth/register
-Conversations
-POST /api/messages
-GET /api/conversations/{id}
-AI
-POST /api/ai/process
+🧠 Hybrid AI Strategy: Uses Ollama locally for cost-effective NLU and Claude for complex dialogue reasoning.
+
+🌍 Regional Localization: Native support for the Tunisian dialect (Darija), handling unique linguistic nuances.
+
+💬 Omnichannel Sink: A unified message processing interface that treats WhatsApp, Messenger, and Web hooks as generic "Events."
+
+📊 Real-time Analytics: Tracks sentiment analysis, response latency, and resolution rates.
+
+🛠️ Tech Stack & Engineering Decisions
+
+ComponentTechnologyWhy?RuntimeJava 17Records, Sealed Classes, and enhanced performance.FrameworkSpring Boot 3.xIndustry standard for robust, production-ready microservices.SecuritySpring Security + JWTStateless authentication for scalable API consumption.DatabasePostgreSQLRelational integrity for complex CRM mapping.AI ModelsClaude 3 & OllamaBalancing high-end reasoning with local, private NLU processing.📡 API Design Snippet
+
+The platform follows a standardized RESTful maturity level:
+
+POST /api/v1/messages
+
+JSON
+
+
+
+{
+
+  "senderId": "user_123",
+
+  "channel": "WHATSAPP",
+
+  "content": "Asslema, nheb naaref mwaid el khedma",
+
+  "metadata": { "language": "ar-TN" }
+
+}
+
 🚀 Getting Started
+
 Prerequisites
-Java 17+
-Maven
-PostgreSQL
-Docker (optional)
-Ollama installed locally
-Setup
+
+JDK 17 or higher
+
+Docker & Docker Compose
+
+Ollama (Running llama3 or mistral locally)
+
+Installation
+
+Clone the Repo
+
+Bash
+
+
+
 git clone https://github.com/yourusername/ai-customer-service.git
-cd ai-customer-service
-mvn install
-Run Application
+
+Environment Setup
+
+Configure your application.yml with Anthropic API keys and DB credentials.
+
+Spin up Services
+
+Bash
+
+
+
+docker-compose up -d
+
 mvn spring-boot:run
-🔐 Security
-JWT-based authentication
-Secure REST APIs
-Multi-tenant ready architecture
-🗺️ Roadmap
-Multi-tenant SaaS architecture
-Voice assistant integration
-Fine-tuned local models
-Advanced AI analytics
-Human agent fallback system
-📌 Project Highlights
-Real-world AI SaaS idea
-Clean architecture + AI orchestration
-Multilingual + regional focus (Tunisia 🇹🇳)
-Designed for scalability
-🤝 Contributing
 
-Contributions are welcome!
+🗺️ Roadmap & Future Vision
 
-Fork the repository
-Create a feature branch
-Commit your changes
-Open a pull request
-📬 Contact
-Email: your.email@example.com
-LinkedIn: https://www.linkedin.com/in/yourname/
-Twitter: https://twitter.com/yourusername
+[ ] Multi-tenant SaaS Architecture: Allow multiple businesses to manage their own AI bots on one instance.
 
-💡 Let’s build the future of AI-powered customer service together.
+[ ] Human-in-the-loop (HITL): Seamlessly hand off complex queries to a live human agent.
+
+[ ] Voice Integration: Real-time STT/TTS for phone-based AI support.
+
+🤝 Contact & Contribution
+
+I am always open to discussing system design, AI, or potential collaborations!
+
+LinkedIn: YassineKalaiEzzar
 
 
----
-
-If you want to go even further, I can:
-- Add **badges (build, license, tech stack)** → makes it look very professional  
-- Add **screenshots / demo GIFs** → huge impact for recruiters  
-- Or upgrade this into a **top 1% GitHub README (like big open-source projects)**
+Email: YassineKalaiEzzar@gmail.com

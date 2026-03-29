@@ -1,96 +1,106 @@
-🤖 AI-Powered Omnichannel Customer Service Platform
+🤖 AI Omnichannel Customer Service Platform
 
-An enterprise-grade, scalable AI communication engine. This platform bridges the gap between traditional CRM systems and generative AI, providing a seamless, multilingual (English & Tunisian Darija 🇹🇳) automated support experience across WhatsApp, Messenger, and Web.
+An enterprise-ready, scalable AI communication engine designed to automate complex customer interactions. This platform bridges the gap between traditional CRM systems and generative AI, providing a seamless, multilingual (English & Tunisian Darija 🇹🇳) automated support experience across Web, WhatsApp, and Real-time Voice Calls.
 
 🏗️ System Architecture & Design
 
-As a junior engineer focused on Scalable Systems, I built this project with a "Production-First" mindset, prioritizing decoupling and the Open/Closed Principle.
+Built with a Modular Monolith approach, the system prioritizes the Open/Closed Principle, ensuring the core business logic remains agnostic of the specific LLM provider or messaging channel.
 
-🔷 High-Level Infrastructure
+<p align="center">
 
-The system follows a distributed architecture pattern where the Spring Boot core acts as the orchestrator between the entry gateways and the AI inference engines.
+<img src="https://images2.imgbox.com/39/a4/0XvjR1kE_o.png" alt="System Architecture" width="100%" />
 
-🔷 AI Orchestration Pipeline
+</p>
 
-Instead of simple API calls, this project implements a Chain-of-Thought pipeline:
+🔷 Architectural Decisions (Senior Focus)
 
-NLU Layer (Ollama): Localized intent detection and entity extraction (e.g., identifying a "Refund" intent in Tunisian Darija).
+Hybrid AI Strategy: Uses Ollama locally for cost-effective, low-latency NLU (Intent Detection) and Claude 3 for high-reasoning dialogue generation.
 
-Context Management: Retrieving RAG-based data or conversation history from PostgreSQL.
+Event-Driven Ingress: Messaging hooks (WhatsApp/Messenger) and Voice streams are treated as generic "Events," allowing for easy extensibility to new channels.
 
-Inference Layer (Claude 3): Generating high-fidelity, empathetic responses based on the enriched context.
-
-🔷 Backend Layered Architecture (SOLID Focus)
-
-The codebase is structured into cohesive modules to ensure maintainability:
-
-Controller Layer: RESTful entry points with centralized Exception Handling.
-
-Service Layer: Business logic implementation.
-
-AI Strategy Layer: An abstraction layer allowing the platform to hot-swap between Claude, OpenAI, or local Llama models without breaking the core service.
-
-Persistence Layer: Spring Data JPA with optimized query indexing for conversation logs.
+Persistence Strategy: PostgreSQL utilizes JSONB for flexible AI metadata storage while maintaining ACID compliance for relational CRM data.
 
 🌟 Key Features
 
-🧠 Hybrid AI Strategy: Uses Ollama locally for cost-effective NLU and Claude for complex dialogue reasoning.
+🧠 Advanced AI Capabilities
 
-🌍 Regional Localization: Native support for the Tunisian dialect (Darija), handling unique linguistic nuances.
+Context-Aware Reasoning: Implements a sliding-window memory to maintain long-term conversation state.
 
-💬 Omnichannel Sink: A unified message processing interface that treats WhatsApp, Messenger, and Web hooks as generic "Events."
+Regional Localization: Native support for the Tunisian dialect (Darija), handling unique linguistic nuances that standard LLMs often miss.
 
-📊 Real-time Analytics: Tracks sentiment analysis, response latency, and resolution rates.
+Intent-Based Routing: Automatically classifies requests (e.g., Refund, Inquiry, Complaint) to trigger specific business workflows.
 
-🛠️ Tech Stack & Engineering Decisions
+📞 Voice & Omnichannel Integration
 
-ComponentTechnologyWhy?RuntimeJava 17Records, Sealed Classes, and enhanced performance.FrameworkSpring Boot 3.xIndustry standard for robust, production-ready microservices.SecuritySpring Security + JWTStateless authentication for scalable API consumption.DatabasePostgreSQLRelational integrity for complex CRM mapping.AI ModelsClaude 3 & OllamaBalancing high-end reasoning with local, private NLU processing.📡 API Design Snippet
+Real-time Voice Calls: Process actual phone calls using a low-latency STT/TTS pipeline (Speech-to-Text -> LLM -> Text-to-Speech).
 
-The platform follows a standardized RESTful maturity level:
+WhatsApp & Messenger: Unified dashboard for social messaging.
 
-POST /api/v1/messages
+Barge-in Support: The AI can detect when a user interrupts during a voice call and stop speaking immediately.
 
-JSON
+📊 Enterprise Management
+
+CRM Connectivity: Synchronizes with customer profiles to provide personalized service.
+
+Analytics Dashboard: Real-time tracking of sentiment, resolution rates, and API latency.
+
+⚙️ Backend Implementation
+
+The Spring Boot core follows DDD (Domain-Driven Design) principles to keep the logic decoupled.
+
+🔷 Strategic Design Patterns
+
+Strategy Pattern: Hot-swap LLM providers (Claude vs. Ollama) based on cost or request complexity.
+
+Adapter Pattern: Standardizes payloads from different providers (Twilio, Meta, Vapi) into a single internal messaging DTO.
+
+Observer Pattern: Asynchronous logging and analytics to prevent blocking the main response thread.
+
+Plaintext
 
 
 
-{
+src/main/java/com/platform/backend
 
-  "senderId": "user_123",
+├── 🏛️ config             # Security (JWT), CORS, and AI Bean Definitions
 
-  "channel": "WHATSAPP",
+├── 🔌 controllers        # Versioned REST API (/api/v1)
 
-  "content": "Asslema, nheb naaref mwaid el khedma",
+├── 🧠 domain             # Business logic & Entities
 
-  "metadata": { "language": "ar-TN" }
+│   ├── ai                # Prompt logic & Strategy Implementation
 
-}
+│   ├── voice             # WebSocket & Media Stream handling
 
-🚀 Getting Started
+│   └── chat              # Conversation state & Context management
+
+🛠️ Tech Stack
+
+ComponentTechnologyLanguageJava 17 (Records, Sealed Classes)FrameworkSpring Boot 3.x, Spring Security, Spring Data JPAAI ModelsClaude 3.5 Sonnet (Cloud), Ollama/Llama 3 (Local)DatabasePostgreSQL 15Real-timeWebSockets for Voice StreamingInfrastructureDocker, GitHub Actions (CI/CD)🚀 Getting Started
 
 Prerequisites
 
-JDK 17 or higher
+JDK 17+
 
 Docker & Docker Compose
 
-Ollama (Running llama3 or mistral locally)
+Ollama (Running llama3 locally)
 
-Installation
+Setup & Run
 
-Clone the Repo
+Clone the repository
 
 Bash
 
 
 
-git clone https://github.com/yourusername/ai-customer-service.git
+git clone https://github.com/yourusername/ai-customer-platform.gitcd ai-customer-platform
 
-Environment Setup
+Environment Configuration
 
-Configure your application.yml with Anthropic API keys and DB credentials.
+Update src/main/resources/application.yml with your Claude API Key.
 
-Spin up Services
+Start Services
 
 Bash
 
@@ -100,15 +110,9 @@ docker-compose up -d
 
 mvn spring-boot:run
 
-🗺️ Roadmap & Future Vision
+🤝 Contributing & Contact
 
-[ ] Multi-tenant SaaS Architecture: Allow multiple businesses to manage their own AI bots on one instance.
-
-[ ] Human-in-the-loop (HITL): Seamlessly hand off complex queries to a live human agent.
-
-[ ] Voice Integration: Real-time STT/TTS for phone-based AI support.
-
-🤝 Contact & Contribution
+Contributions are what make the open-source community an amazing place to learn and create.
 
 I am always open to discussing system design, AI, or potential collaborations!
 

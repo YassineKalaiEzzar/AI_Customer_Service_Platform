@@ -8,7 +8,7 @@ Built with a Modular Monolith approach, the system prioritizes the Open/Closed P
 
 <p align="center">
 
-<img src="https://images2.imgbox.com/39/a4/0XvjR1kE_o.png" alt="System Architecture" width="100%" />
+<img width="1408" height="1288" alt="image" src="https://github.com/user-attachments/assets/3fc4bf4d-4a4e-4cfe-bc34-2b03acb950ef" />
 
 </p>
 

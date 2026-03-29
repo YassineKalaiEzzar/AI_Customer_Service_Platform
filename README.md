@@ -78,33 +78,6 @@ src/main/java/com/platform/backend
 
 ComponentTechnologyLanguageJava 17 (Records, Sealed Classes)FrameworkSpring Boot 3.x, Spring Security, Spring Data JPAAI ModelsClaude 3.5 Sonnet (Cloud), Ollama/Llama 3 (Local)DatabasePostgreSQL 15Real-timeWebSockets for Voice StreamingInfrastructureDocker, GitHub Actions (CI/CD)🚀 Getting Started
 
-Prerequisites
-
-JDK 17+
-
-Docker & Docker Compose
-
-Ollama (Running llama3 locally)
-
-Setup & Run
-
-Clone the repository
-
-Bash
-
-
-
-git clone https://github.com/yourusername/ai-customer-platform.gitcd ai-customer-platform
-
-Environment Configuration
-
-Update src/main/resources/application.yml with your Claude API Key.
-
-Start Services
-
-Bash
-
-
 
 docker-compose up -d
 
